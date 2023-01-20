@@ -1,31 +1,45 @@
 import React from "react";
-import Navbar from "../Shared/Navbar";
-import Footer from "../Shared/Footer";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-const Login = () => {
+import Footer from "../Shared/Footer";
+import Navbar from "../Shared/Navbar";
+
+const Register = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const handleLogin = (data) => {
+  const handleSignup = (data) => {
     console.log(data);
   };
   return (
     <>
-      <Navbar></Navbar>
+      <Navbar />
       <div className='py-12 flex items-center justify-center'>
         <div className='w-96 p-8 shadow rounded'>
-          <h2 className='text-2xl text-center'>Login</h2>
-          <form onSubmit={handleSubmit(handleLogin)}>
+          <h2 className='text-2xl text-center'>Sign Up</h2>
+          <form onSubmit={handleSubmit(handleSignup)}>
+            <div className='form-control w-full'>
+              <label className='label'>Name</label>
+              <input
+                type='text'
+                className='input input-bordered w-full max-w-xs'
+                {...register("name", { required: "Name is required!" })}
+              />
+              {errors.name && (
+                <label className='label text-red-600'>
+                  {errors.name.message}
+                </label>
+              )}
+            </div>
             <div className='form-control w-full'>
               <label className='label'>Email</label>
               <input
                 type='email'
                 className='input input-bordered w-full max-w-xs'
                 {...register("email", {
-                  required: "Email address is required",
+                  required: "Email is required!",
                 })}
               />
               {errors.email && (
@@ -43,7 +57,11 @@ const Login = () => {
                 name='password'
                 className='input input-bordered w-full max-w-xs'
                 {...register("password", {
-                  required: "Password is required",
+                  required: "Password is required!",
+                  pattern: {
+                    value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/,
+                    message: "Password should be strong",
+                  },
                   minLength: {
                     value: 8,
                     message: "Password must be 8 characters long",
@@ -55,9 +73,6 @@ const Login = () => {
                   {errors.password.message}
                 </label>
               )}
-              <label className='label'>
-                <Link className='text-accent'>forgot password ?</Link>
-              </label>
             </div>
             <div className='form-control w-full py-4'>
               <input
@@ -69,10 +84,10 @@ const Login = () => {
           </form>
 
           <p>
-            New to Doctors Portal ?
-            <Link to='/signup' className='text-primary'>
+            Already have an account ?
+            <Link to='/login' className='text-primary'>
               {" "}
-              Create a new account
+              Login
             </Link>
           </p>
           <div className='divider'>Or</div>
@@ -81,9 +96,9 @@ const Login = () => {
           </button>
         </div>
       </div>
-      <Footer></Footer>
+      <Footer />
     </>
   );
 };
 
-export default Login;
+export default Register;

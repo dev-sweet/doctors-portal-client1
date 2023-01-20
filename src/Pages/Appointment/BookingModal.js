@@ -19,6 +19,7 @@ const BookingModal = ({ treatment, setTreatment, date }) => {
       email,
       phone,
     };
+    console.log(booking);
 
     setTreatmentNull();
   };
