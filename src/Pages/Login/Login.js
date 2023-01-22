@@ -63,7 +63,7 @@ const Login = () => {
               <input
                 className='btn btn-accent w-full'
                 type='submit'
-                value='Submit'
+                value='Login'
               />
             </div>
           </form>

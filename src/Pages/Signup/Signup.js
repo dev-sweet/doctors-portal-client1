@@ -1,6 +1,8 @@
 import React from "react";
+import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../contexts/AuthProvider";
 import Footer from "../Shared/Footer";
 import Navbar from "../Shared/Navbar";
 
@@ -10,8 +12,15 @@ const Register = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  const { createUser } = useContext(AuthContext);
   const handleSignup = (data) => {
-    console.log(data);
+    createUser(data.email, data.password)
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+      })
+      .catch((err) => console.log(err));
   };
   return (
     <>
@@ -60,7 +69,8 @@ const Register = () => {
                   required: "Password is required!",
                   pattern: {
                     value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/,
-                    message: "Password should be strong",
+                    message:
+                      "Password must have uppercase,lowercase,number and special charecter",
                   },
                   minLength: {
                     value: 8,
@@ -78,7 +88,7 @@ const Register = () => {
               <input
                 className='btn btn-accent w-full'
                 type='submit'
-                value='Submit'
+                value='Sign Up'
               />
             </div>
           </form>
