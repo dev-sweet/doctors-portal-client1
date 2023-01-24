@@ -13,12 +13,13 @@ const Register = () => {
     formState: { errors },
   } = useForm();
 
-  const { createUser } = useContext(AuthContext);
+  const { createUser, updateUser } = useContext(AuthContext);
   const handleSignup = (data) => {
     createUser(data.email, data.password)
       .then((result) => {
         const user = result.user;
-        console.log(user);
+        const userInfo = { displayName: data.name };
+        updateUser(userInfo).then()
       })
       .catch((err) => console.log(err));
   };
