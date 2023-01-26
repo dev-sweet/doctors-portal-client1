@@ -1,9 +1,12 @@
 import React from "react";
 import { format } from "date-fns";
+import { useContext } from "react";
+import { AuthContext } from "../../contexts/AuthProvider";
 
 const BookingModal = ({ treatment, setTreatment, date }) => {
   const { name, slots } = treatment;
-
+  const { user } = useContext(AuthContext);
+  console.log(user);
   const handleSubmit = (event) => {
     event.preventDefault();
     const form = event.target;
@@ -19,13 +22,18 @@ const BookingModal = ({ treatment, setTreatment, date }) => {
       email,
       phone,
     };
-    console.log(booking);
 
-    setTreatmentNull();
+    fetch("http://localhost:5000/bookings", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(booking),
+    })
+      .then((res) => res.json())
+      .then((data) => setTreatment(null));
   };
-  const setTreatmentNull = () => {
-    setTreatment(null);
-  };
+
   return (
     <div>
       <input type='checkbox' id='booking-modal' className='modal-toggle' />
@@ -57,12 +65,14 @@ const BookingModal = ({ treatment, setTreatment, date }) => {
               name='name'
               type='text'
               placeholder='Your Name'
+              defaultValue={user?.displayName}
               className='input input-bordered w-full'
             />
             <input
               name='email'
               type='email'
               placeholder='Your Email'
+              defaultValue={user?.email}
               className='input input-bordered w-full'
             />
             <input
