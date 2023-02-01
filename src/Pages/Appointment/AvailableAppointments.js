@@ -5,21 +5,24 @@ import BookingModal from "./BookingModal";
 import { useQuery } from "@tanstack/react-query";
 const AvailableAppointments = ({ date }) => {
   const [treatment, setTreatment] = useState(null);
-
-  const { data: services = [] } = useQuery({
-    queryKey: ["services"],
+  const formatedDate = format(date, "PP");
+  const { data: services = [], refetch } = useQuery({
+    queryKey: ["services", formatedDate],
     queryFn: async () => {
-      const res = await fetch("http://localhost:5000/appointments");
+      const res = await fetch(
+        `http://localhost:5000/appointments?date=${formatedDate}`
+      );
       const data = await res.json();
       return data;
     },
   });
+  console.log(services);
 
   return (
     <>
       <section className='p-12'>
         <h2 className='text-xl text-center text-primary'>
-          Available Appointments on {format(date, "PP")}
+          Available Appointments on {formatedDate}
         </h2>
         <p className='text-center text-accent mt-3'>Please select a service.</p>
         <div className='grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-5 mt-5'>
@@ -36,7 +39,8 @@ const AvailableAppointments = ({ date }) => {
           <BookingModal
             treatment={treatment}
             setTreatment={setTreatment}
-            date={date}
+            date={formatedDate}
+            refetch={refetch}
           />
         )}
       </section>

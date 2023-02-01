@@ -1,12 +1,11 @@
 import React from "react";
-import { format } from "date-fns";
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/AuthProvider";
 
-const BookingModal = ({ treatment, setTreatment, date }) => {
+const BookingModal = ({ treatment, setTreatment, date, refetch }) => {
   const { name, slots } = treatment;
+  console.log(treatment);
   const { user } = useContext(AuthContext);
-  console.log(user);
   const handleSubmit = (event) => {
     event.preventDefault();
     const form = event.target;
@@ -31,7 +30,11 @@ const BookingModal = ({ treatment, setTreatment, date }) => {
       body: JSON.stringify(booking),
     })
       .then((res) => res.json())
-      .then((data) => setTreatment(null));
+      .then((data) => {
+        setTreatment(null);
+        console.log(data);
+        refetch();
+      });
   };
 
   return (
@@ -50,7 +53,7 @@ const BookingModal = ({ treatment, setTreatment, date }) => {
             <input
               name='date'
               type='text'
-              value={format(date, "PP")}
+              value={date}
               className='input input-bordered w-full'
               disabled
             />
