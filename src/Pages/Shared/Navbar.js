@@ -29,7 +29,7 @@ const Navbar = () => {
       {user?.email ? (
         <>
           <li>
-            <Link to='/dashboard'>Reviews</Link>
+            <Link to='/dashboard'>Dashboard</Link>
           </li>
           <li>
             <Link to='/reviews'>Reviews</Link>
@@ -67,6 +67,7 @@ const Navbar = () => {
               />
             </svg>
           </label>
+          
           <ul
             tabIndex={0}
             className='menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52'
@@ -77,6 +78,7 @@ const Navbar = () => {
         <Link className='btn btn-ghost normal-case text-xl'>
           Doctors Portal
         </Link>
+        
       </div>
       <div className='navbar-end hidden lg:flex'>
         <ul className='menu menu-horizontal px-1'>{MenuItems}</ul>

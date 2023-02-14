@@ -16,7 +16,6 @@ const AvailableAppointments = ({ date }) => {
       return data;
     },
   });
-  console.log(services);
 
   return (
     <>

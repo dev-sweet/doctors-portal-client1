@@ -7,17 +7,16 @@ import Info from "./Info";
 import Services from "./Services";
 import Testimonials from "./Testimonials";
 import Navbar from "../Shared/Navbar";
+import Main from "../../Layout/Main";
 const Home = () => {
   return (
     <div>
-      <Navbar />
       <Banner />
       <Info />
       <Services />
       <HomeAppointment />
       <Testimonials />
       <HomeContact />
-      <Footer />
     </div>
   );
 };

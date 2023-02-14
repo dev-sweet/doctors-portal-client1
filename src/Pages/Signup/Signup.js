@@ -1,11 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthProvider";
-import Footer from "../Shared/Footer";
-import Navbar from "../Shared/Navbar";
-
+import toast from "react-hot-toast";
+import useToken from "../../hooks/useToken";
 const Register = () => {
   const {
     register,
@@ -15,14 +14,20 @@ const Register = () => {
 
   const { createUser, updateUser } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [registeredEmail, setRegisteredEmail] = useState("");
+  const [token] = useToken(registeredEmail);
+  if (token) {
+    navigate("/");
+  }
   const handleSignup = (data) => {
     createUser(data.email, data.password)
       .then((result) => {
-        const user = result.user;
+        // const user = result.user;
         const userInfo = { displayName: data.name };
         updateUser(userInfo)
           .then(() => {
-            navigate("/");
+            const user = { name: data.name, email: data.email };
+            saveUser(user);
           })
           .catch((err) => {
             console.log(err);
@@ -30,9 +35,24 @@ const Register = () => {
       })
       .catch((err) => console.log(err));
   };
+
+  const saveUser = (user) => {
+    fetch("http://localhost:5000/users", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(user),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.acknowledged === true) {
+          setRegisteredEmail(user.email);
+          toast.success("Signup Success!");
+        }
+      });
+  };
+
   return (
     <>
-      <Navbar />
       <div className='py-12 flex items-center justify-center'>
         <div className='w-96 p-8 shadow rounded'>
           <h2 className='text-2xl text-center'>Sign Up</h2>
@@ -114,7 +134,6 @@ const Register = () => {
           </button>
         </div>
       </div>
-      <Footer />
     </>
   );
 };
