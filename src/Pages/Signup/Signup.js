@@ -44,6 +44,7 @@ const Register = () => {
     })
       .then((res) => res.json())
       .then((data) => {
+        console.log(data);
         if (data.acknowledged === true) {
           setRegisteredEmail(user.email);
           toast.success("Signup Success!");

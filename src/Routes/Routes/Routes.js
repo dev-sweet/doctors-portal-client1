@@ -9,7 +9,7 @@ import Main from "../../Layout/Main";
 import DashboardLaout from "../../Layout/DashboardLaout";
 import MyAppointment from "../../Pages/Dashboard/MyAppointment/MyAppointment";
 import Allusers from "../../Pages/Dashboard/AllUsers/Allusers";
-
+import AdminRoute from "../AdminRoute/AdminRoute";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -53,9 +53,9 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/allusers",
         element: (
-          <PrivateRoute>
+          <AdminRoute>
             <Allusers />
-          </PrivateRoute>
+          </AdminRoute>
         ),
       },
     ],

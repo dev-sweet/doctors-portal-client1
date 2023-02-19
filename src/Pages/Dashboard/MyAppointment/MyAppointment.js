@@ -5,6 +5,7 @@ import { AuthContext } from "../../../contexts/AuthProvider";
 
 const MyAppointments = () => {
   const { user } = useContext(AuthContext);
+  console.log("user", user);
   const { data: bookings = [] } = useQuery({
     queryKey: ["bookings", user?.email],
     queryFn: async () => {
@@ -20,7 +21,7 @@ const MyAppointments = () => {
       return data;
     },
   });
-
+  console.log("bookings", bookings);
   return (
     <div>
       <h3>My Appointments</h3>
@@ -36,7 +37,7 @@ const MyAppointments = () => {
             </tr>
           </thead>
           <tbody>
-            {bookings?.map((book, i) => (
+            {/* {bookings?.map((book, i) => (
               <tr key={book._id} className='hover'>
                 <th>{i + 1}</th>
                 <td>{book.patientName}</td>
@@ -44,7 +45,7 @@ const MyAppointments = () => {
                 <td>{book.appointmentDate}</td>
                 <td>{book.slot}</td>
               </tr>
-            ))}
+            ))} */}
           </tbody>
         </table>
       </div>
