@@ -11,25 +11,28 @@ const DashboardLaout = () => {
   return (
     <div>
       <Navbar></Navbar>
-      <div className='drawer drawer-mobile'>
+      <div className="drawer drawer-mobile">
         <input
-          id='dashboard-drawer'
-          type='checkbox'
-          className='drawer-toggle'
+          id="dashboard-drawer"
+          type="checkbox"
+          className="drawer-toggle"
         />
-        <div className='drawer-content'>
+        <div className="drawer-content">
           <Outlet></Outlet>
         </div>
-        <div className='drawer-side'>
-          <label htmlFor='dashboard-drawer' className='drawer-overlay'></label>
-          <ul className='menu p-4 w-80 bg-base-100 text-base-content'>
+        <div className="drawer-side">
+          <label htmlFor="dashboard-drawer" className="drawer-overlay"></label>
+          <ul className="menu p-4 w-80 bg-base-100 text-base-content">
             <li>
-              <Link to='/dashboard'>My Appointments</Link>
+              <Link to="/dashboard">My Appointments</Link>
             </li>
 
             <li>
               {user && isAdmin && (
-                <Link to='/dashboard/allusers'>All users</Link>
+                <>
+                  <Link to="/dashboard/allusers">All users</Link>
+                  <Link to="/dashboard/add-doctor">Add doctor</Link>
+                </>
               )}
             </li>
           </ul>
