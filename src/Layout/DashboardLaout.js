@@ -30,8 +30,9 @@ const DashboardLaout = () => {
             <li>
               {user && isAdmin && (
                 <>
-                  <Link to="/dashboard/allusers">All users</Link>
-                  <Link to="/dashboard/add-doctor">Add doctor</Link>
+                  <Link to="/dashboard/allusers">All Users</Link>
+                  <Link to="/dashboard/add-doctor">Add Doctor</Link>
+                  <Link to="/dashboard/managedoctors">Mange Doctors</Link>
                 </>
               )}
             </li>
