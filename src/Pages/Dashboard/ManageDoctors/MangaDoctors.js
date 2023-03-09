@@ -1,8 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
+import { useState } from "react";
+import { toast } from "react-hot-toast";
+import ConfirmationModal from "./ConfirmationModal";
 
 const MangaDoctors = () => {
-  const { data: doctors, isLoading } = useQuery({
+  const [deletingDoctor, setDeletingDoctor] = useState(null);
+  // const [showModal, setShowModal] = useState(false);
+  const {
+    data: doctors,
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["doctors"],
     queryFn: async () => {
       try {
@@ -17,6 +26,30 @@ const MangaDoctors = () => {
       } catch (err) {}
     },
   });
+
+  const handleModalClose = () => {
+    setDeletingDoctor(null);
+  };
+
+  const handleDeleteDoctor = (doctor) => {
+    console.log(doctor._id);
+    fetch(`http://localhost:5000/doctors/${doctor._id}`, {
+      method: "DELETE",
+      headers: {
+        authorization: `bearer ${localStorage.getItem("accessToken")}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.deletedCount > 0) {
+          refetch();
+          toast.success(`Doctor ${doctor.name} deleted successfully!`);
+          setDeletingDoctor(null);
+        }
+      });
+  };
+
+  // here is conditional rendering if isLoading is true the render the progress
   if (isLoading) {
     return <progress className="progress w-56"></progress>;
   }
@@ -50,12 +83,25 @@ const MangaDoctors = () => {
                 <th>{doctor.email}</th>
                 <th>{doctor.specialty}</th>
                 <th>
-                  <button className="btn btn-sm btn-error">Delete</button>
+                  <label
+                    onClick={() => setDeletingDoctor(doctor)}
+                    htmlFor="confirmation-modal"
+                    className="btn btn-sm btn-error"
+                  >
+                    Delete
+                  </label>
                 </th>
               </tr>
             ))}
           </tbody>
         </table>
+        {deletingDoctor && (
+          <ConfirmationModal
+            doctor={deletingDoctor}
+            handleModalClose={handleModalClose}
+            handleDeleteDoctor={handleDeleteDoctor}
+          />
+        )}
       </div>
     </div>
   );

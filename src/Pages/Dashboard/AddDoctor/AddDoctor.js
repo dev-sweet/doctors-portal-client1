@@ -44,8 +44,8 @@ const AddDoctor = () => {
             body: JSON.stringify(doctor),
           })
             .then((res) => res.json())
-            .then((data) => {
-              if (data.acknowledged) {
+            .then((Doctordata) => {
+              if (Doctordata.acknowledged) {
                 toast.success(`${data?.name} added successfully`);
                 navigate("/dashboard/managedoctors");
               }
