@@ -20,7 +20,7 @@ const AddDoctor = () => {
     const formData = new FormData();
 
     formData.append("image", image);
-    const url = `https://api.imgbb.com/1/upload?expiration=600&key=${imgbbKey}`;
+    const url = `https://api.imgbb.com/1/upload?key=${imgbbKey}`;
     fetch(url, {
       method: "POST",
       body: formData,
@@ -46,7 +46,7 @@ const AddDoctor = () => {
             .then((res) => res.json())
             .then((data) => {
               if (data.acknowledged) {
-                toast.success(`${data.name} added successfully`);
+                toast.success(`${data?.name} added successfully`);
                 navigate("/dashboard/managedoctors");
               }
             });
